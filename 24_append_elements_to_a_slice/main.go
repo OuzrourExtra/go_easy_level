@@ -12,9 +12,9 @@ import (
 /*
 inputNumber is a function for inputing a number
 */
-func inputNumber() (nb int64, err error) {
+func inputNumber(sentence string) (nb int64, err error) {
 	fmt.Println("=======================")
-	fmt.Printf("Enter Your number: ")
+	fmt.Printf("%s: ",sentence)
 	reader := bufio.NewReader(os.Stdin)
 	str, _ := reader.ReadString('\n')
 	str = strings.TrimSpace(str)
@@ -25,27 +25,27 @@ func inputNumber() (nb int64, err error) {
 		return nb, nil
 	}
 }
-
-func appendToTheSlice(tab *[]int){
-	i:= true
-	for i{
-		value , err := inputNumber()
+/* 
+apppedToTheSlice is a function that append elements on the slice
+*/ 
+func appendToTheSlice(tab *[]int , cap int){
+	
+	for i:= 0 ; i<cap ; i++{
+		value , err := inputNumber("Enter Your Number")
 		if err != nil{
 			log.Fatal(err)
 		}
 		*tab = append(*tab, int(value))
-		fmt.Printf("Do You want to stop ? y/n : ")
-		reader := bufio.NewReader(os.Stdin)
-		str, _ := reader.ReadString('\n')
-		str = strings.TrimSpace(str)
-		if str == "y"{
-			i=false
-		}
 	}
 }
 
 func main(){
-	tab := make([]int , 5)
-	appendToTheSlice(&tab)
+	numberOfElements , err :=inputNumber("Enter The Number of Elements ")
+	if err!=nil{
+		log.Fatal(err)
+	}
+	tab := make([]int , 0 , numberOfElements )
+	appendToTheSlice(&tab , int(numberOfElements))
+
 	fmt.Printf(" The Result : %v",tab)
 }
